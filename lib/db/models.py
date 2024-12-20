@@ -29,7 +29,6 @@ class SavingsGoal(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     goal_name = Column(String, nullable=False)
     target_amount = Column(Float, nullable=False)
-    saved_amount = Column(Float, nullable=False)
     user = relationship("User", back_populates="savings_goals")
 
 Base.metadata.create_all(engine)
