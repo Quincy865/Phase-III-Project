@@ -6,9 +6,10 @@ def main_menu():
         print("\n--- Personal Finance Tracker ---")
         print("1. View Transactions")
         print("2. Add a Transaction")
-        print("3. View Savings Goals")
-        print("4. Set a Savings Goal")
-        print("5. Exit")
+        print("3. Delete a Transaction")
+        print("4. View Savings Goals")
+        print("5. Set a Savings Goal")
+        print("6. Exit")
 
         choice = input("Enter your choice: ")
         if choice == "1":
@@ -16,10 +17,12 @@ def main_menu():
         elif choice == "2":
             add_transaction()
         elif choice == "3":
-            display_savings_goals()
+            delete_transaction()
         elif choice == "4":
-            set_savings_goal()
+            display_savings_goals()
         elif choice == "5":
+            set_savings_goal()
+        elif choice == "6":
             print("Goodbye!")
             break
         else:
@@ -39,6 +42,18 @@ def add_transaction():
     session.add(transaction)
     session.commit()
     print("Transaction added!")
+
+def delete_transaction():
+    display_transactions()
+    transaction_id = get_user_input("Enter the ID of the transaction to delete: ", int)
+    transaction_to_delete = session.query(Transaction).filter_by(id=transaction_id).first()
+
+    if transaction_to_delete:
+        session.delete(transaction_to_delete)
+        session.commit()
+        print(f"Transaction with ID {transaction_id} has been deleted.")
+    else:
+        print("Transaction not found.")
 
 def display_savings_goals():
     goals = session.query(SavingsGoal).all()
